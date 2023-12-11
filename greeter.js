@@ -7,11 +7,9 @@
             day: 'numeric'
         }
         var now = new Date()
-        var formattedDate = now.toLocaleDateString("pt-BR", 
-        options)
+        var formattedDate = now.toLocaleDateString("pt-BR", options)
         return `Hello, ${name}! Today is ${formattedDate}.`
     }
-
     exports.greet = greet
 })(this)
 

@@ -1,4 +1,3 @@
-(function(exports) {
     function greet(name) {
         var options = { 
             weekday: 'long', 
@@ -10,6 +9,4 @@
         var formattedDate = now.toLocaleDateString("pt-BR", options)
         return `Hello, ${name}! Today is ${formattedDate}.`
     }
-    exports.greet = greet
-})(this)
-
+module.exports.greet = greet

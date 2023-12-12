@@ -11,4 +11,15 @@ describe('testing once function', function() {
 
         assert(callback.calledOnce);
     });
+
+    it.only('calls original function with right this and args', function () {
+        var callback = sinon.fake();
+        var proxy = once(callback);
+        var obj = {};
+
+        proxy.call(obj, 1, 2, 3);
+
+        assert(callback.calledOn(obj));
+        assert(callback.calledWith(1, 2, 3));
+    })
 })

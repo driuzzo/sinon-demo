@@ -9,4 +9,4 @@ function greet(name) {
     var formattedDate = now.toLocaleDateString("pt-BR", options)
     return `Hello, ${name}! Today is ${formattedDate}.`
 }
-module.exports = { greet } 
+module.exports = { greet };

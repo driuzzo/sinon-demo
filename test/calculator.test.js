@@ -1,10 +1,10 @@
-const expect = require('chai').expect;
-const sinon = require('sinon');
+const expect = require("chai").expect;
+const sinon = require("sinon");
 
 
-const divide = require('../calculator');
+const divide = require("../calculator");
 
-describe('Divide', () => {
+describe("Divide", () => {
     const sandbox = sinon.createSandbox();
 
     const SUT = {};
@@ -12,7 +12,7 @@ describe('Divide', () => {
     SUT.half = (a) => SUT.divide(a, 2);
 
     beforeEach(() => {
-        sandbox.spy(SUT, 'divide');
+        sandbox.spy(SUT, "divide");
 
     });
 
@@ -20,17 +20,17 @@ describe('Divide', () => {
         sandbox.restore();
     });
 
-    it('was called once', () => {
+    it("was called once", () => {
         SUT.half(10, 2);
         expect(SUT.divide.calledOnce).to.be.ok;
     });
 
-    it('second argument is 2', () => {
+    it("second argument is 2", () => {
         SUT.half(10);
         expect(SUT.divide.firstCall.args[1]).to.eq(2);
     });
 
-    it('unexpected error', () => {
+    it("unexpected error", () => {
         expect(SUT.divide.called).to.be.false;
     });
 })

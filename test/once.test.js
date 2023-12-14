@@ -1,9 +1,9 @@
-const assert = require('assert');
-const sinon = require('sinon');
-const once = require('../once')
+const assert = require("assert");
+const sinon = require("sinon");
+const once = require("../once")
 
-describe('testing once function', function() {
-    it('calls the original function', function () {
+describe("testing once function", function() {
+    it("calls the original function", function () {
         var callback = sinon.fake();
         var proxy = once(callback);
 
@@ -12,7 +12,7 @@ describe('testing once function', function() {
         assert(callback.calledOnce);
     });
 
-    it.only('calls original function with right this and args', function () {
+    it("calls original function with right this and args", function () {
         var callback = sinon.fake();
         var proxy = once(callback);
         var obj = {};

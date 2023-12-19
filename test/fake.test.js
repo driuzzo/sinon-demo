@@ -128,7 +128,7 @@ describe("fakes", () => {
         assert.isTrue(f.lastCall.lastArg === date2);
     });
 
-    it.only("should be able to be added to the system under test", function () {
+    it("should be able to be added to the system under test", function () {
         const fake = sinon.fake.returns("42");
 
         sinon.replace(console, "log", fake);

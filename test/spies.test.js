@@ -2,7 +2,7 @@ const sinon = require("sinon");
 const PubSub = require("pubsub-js");
 const referee = require("@sinonjs/referee");
 const assert = referee.assert;
-const jsdom = require("jsdom")
+const jsdom = require("jsdom");
 const JSDOM = jsdom.JSDOM;
 const window = new JSDOM().window;
 const document = new JSDOM("").window;
@@ -79,7 +79,7 @@ describe("Spies", function () {
         });        
     });
 
-    it.only('getter setter', function () {
+    it('getter setter', function () {
         var object = {
             get test() {
                 return this.property;
@@ -93,5 +93,55 @@ describe("Spies", function () {
         assert(spy.set.calledOnce);
         assert.equals(object.test, 84);
         assert(spy.get.calledOnce);
+    });
+});
+
+describe("PubSub", function (){
+    it("should call subscribers with message as first argument", function () {
+        const message = "an example message";
+        const spy = sinon.spy();
+
+        PubSub.subscribe(message, spy);
+        PubSub.publishSync(message, "some payload");
+
+        //all assertions is the same thing. second and third are more specific        
+        assert(spy.calledWith(message));
+
+        assert.equals(message, spy.args[0][0]);
+
+        assert.equals(message, spy.getCall(0).args[0]);
+    });
+});
+
+describe("WithArgs", function () {
+    it("should call method once with each argument", function () {
+        const object = { method() {} };
+        const spy = sinon.spy(object, "method");
+
+        object.method(42);
+        object.method(1);
+
+        assert(spy.withArgs(42).calledOnce);
+        assert(spy.withArgs(1).calledOnce);
+    });
+});
+
+describe("Return nth call", function () {
+    const sandbox = sinon.createSandbox();
+
+    beforeEach(function () {
+        sandbox.spy(jQuery, "ajax");
+    });
+
+    afterEach(function () {
+        sandbox.restore();
+    });
+
+    it("should inspect jQuery.getJSON's usage of jQuery.ajax", function () {
+        const url = "https://jsonplaceholder.typicode.com/todos/1";
+        jQuery.ajax(url);
+        const spyCall = jQuery.ajax.getCall(0);
+
+        assert.equals(url, spyCall.args[0]);
     });
 });

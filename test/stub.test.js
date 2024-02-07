@@ -192,7 +192,7 @@ describe("fake ajax request", function () {
     });
 });
 
-describe("stub specified callback", function () {
+describe("stub callback", function () {
     it("should call specified callback", function () {
         let actual;
         const callback = sinon.stub();
@@ -208,6 +208,82 @@ describe("stub specified callback", function () {
         callback.yieldTo("failure");
 
         assert.equals(actual, "Oh noes!");
+    });
+
+    it("calling the last callback", function () {
+        var callback = sinon.stub();
+        callback(function () {
+            console.log("Success!");
+        }, function () {
+            console.log("Oh noes!")
+        });
+
+        callback.callArg(1);
+    });
+});
+
+describe("custom behavior", function () {
+    it("should add a custom behavior", function () {
+        sinon.addBehavior("returnsNum", function (fake, n) {
+            fake.returns(n);
+        });
+
+        const stub = sinon.stub().returnsNum(42);
+
+        assert.equals(stub(), 42);
+    });
+});
+
+describe("replace getter", function () {
+    it("should replace getter", function () {
+        const myObj = {
+            prop: "foo",            
+        };
+
+        sinon.stub(myObj, "prop").get(function getterFn() {
+            return "bar";
+        });
+        assert.equals(myObj.prop, "bar");
+    });
+});
+
+describe("new setter", function () {
+    it("should define new setter", function () {    
+    const myObj = {
+        example: "oldValue",
+        prop: "foo",
+    };
+
+    sinon.stub(myObj, "prop").set(function setterFn(val) {
+        myObj.example = val;
+    });
+
+    myObj.prop = "baz";
+
+    assert.equals(myObj.example, "baz");
+    });
+});
+
+describe("value", function () {
+    it("should define new value", function () {
+        const myObj = {
+            example: "oldValue",
+        };    
+
+    sinon.stub(myObj, "example").value("newValue");
+
+    assert.equals(myObj.example, "newValue");
+    });
+
+    it("should restore values", function () {
+        const myObj = {
+            example: "oldValue",
+        };
+
+        const stub = sinon.stub(myObj, "example").value("newValue");
+        stub.restore();
+
+        assert.equals(myObj.example, "oldValue");
     });
 });
 
